@@ -10,6 +10,10 @@
         <a class="nav-link" href="#">Staff Leave</a>
         <a class="nav-link" href="#">Online Booking</a>
         <a class="nav-link" href="#">Reports</a>
+        <a class="nav-link" href="#">User Management</a>
+        <a class="nav-link" href="{{ route('roles.index') }}">
+            <i class="bi bi-shield-lock me-2"></i> Roles & Permissions
+        </a>
         <a class="nav-link" href="#">Settings</a>
     </nav>
 </aside>
