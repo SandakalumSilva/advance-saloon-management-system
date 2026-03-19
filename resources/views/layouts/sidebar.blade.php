@@ -10,7 +10,11 @@
         <a class="nav-link" href="#">Staff Leave</a>
         <a class="nav-link" href="#">Online Booking</a>
         <a class="nav-link" href="#">Reports</a>
-        <a class="nav-link" href="#">User Management</a>
+        {{-- @can('users.view') --}}
+        <a class="nav-link" href="{{ route('users.index') }}">
+            <i class="bi bi-people me-2"></i> User Management
+        </a>
+        {{-- @endcan --}}
         <a class="nav-link" href="{{ route('roles.index') }}">
             <i class="bi bi-shield-lock me-2"></i> Roles & Permissions
         </a>
