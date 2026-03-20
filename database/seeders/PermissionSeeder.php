@@ -8,22 +8,22 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-     public function run()
+    public function run()
     {
         $modules = [
             'dashboard',
-            'bookings',
+            'calendar',
+            'appointments',
             'customers',
-            'staff',
             'services',
+            'staff',
+            'staff_leave',
             'pos',
-            'products',
-            'expenses',
+            'online_booking',
             'reports',
-            'settings'
+            'settings',
+            'users',
+            'roles',
         ];
 
         $actions = ['view', 'create', 'edit', 'delete'];
@@ -31,7 +31,7 @@ class PermissionSeeder extends Seeder
         foreach ($modules as $module) {
             foreach ($actions as $action) {
                 Permission::firstOrCreate([
-                    'name' => $module . '.' . $action,
+                    'name' => "{$module}.{$action}",
                     'guard_name' => 'web'
                 ]);
             }

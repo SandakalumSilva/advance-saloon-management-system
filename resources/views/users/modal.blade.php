@@ -6,7 +6,7 @@
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5>Add User</h5>
+                    <h5 id="userModalLabel">Add User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
@@ -15,6 +15,7 @@
                     <input type="text" name="name" class="form-control mb-2" placeholder="Name">
                     <input type="email" name="email" class="form-control mb-2" placeholder="Email">
                     <input type="number" name="phone" class="form-control mb-2" placeholder="Phone No.">
+
                     {{-- ROLE --}}
                     <select name="role" class="form-control mb-2">
                         <option value="">Select Role</option>
@@ -36,7 +37,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-primary">Save</button>
+                    <button type="submit" id="submitBtn" class="btn btn-primary">Save</button>
                 </div>
             </div>
 

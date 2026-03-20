@@ -28,6 +28,18 @@ Route::resource('roles', RoleController::class);
 Route::get('roles/{role}/permissions', [RoleController::class, 'permissions'])->name('roles.permissions');
 Route::post('roles/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
 
+// Route::prefix('roles')->name('roles.')->middleware(['auth'])->controller(RoleController::class)->group(function () {
+//     Route::get('/', 'index')->name('index');
+//     Route::post('/', 'store')->name('store');
+
+//     Route::get('{role}', 'show')->name('show');
+//     Route::put('{role}', 'update')->name('update');
+//     Route::delete('{role}', 'destroy')->name('destroy');
+
+//     Route::get('{role}/permissions', 'permissions')->name('permissions');
+//     Route::put('{role}/permissions', 'updatePermissions')->name('permissions.update');
+// });
+
 Route::resource('users', UserController::class);
 
 require __DIR__ . '/auth.php';

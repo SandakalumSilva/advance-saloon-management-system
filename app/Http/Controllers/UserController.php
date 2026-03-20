@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Interfaces\UserInterface;
 use App\Models\Branch;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Spatie\Permission\Models\Role;
 
@@ -26,6 +27,7 @@ class UserController extends Controller
             $users = $this->userRepository->getAll();
 
             return DataTables::of($users)
+                ->addIndexColumn()
                 ->addColumn('branch', function ($user) {
                     return $user->branch ? $user->branch->name : '-';
                 })
@@ -56,21 +58,28 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $user->load('roles','branch');
+        $user->load('roles', 'branch');
+        Log::debug('User loaded for edit', [
+            'roles' => $user->roles,
+        ]);
         return response()->json($user);
     }
 
-    public function update(UserRequest $request, $id)
+    public function update(UserRequest $request, User $user)
     {
-        $this->userRepository->update($id, $request->all());
+        $this->userRepository->update($user, $request->validated());
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true
+        ]);
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $this->userRepository->delete($id);
+        $this->userRepository->delete($user);
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true
+        ]);
     }
 }

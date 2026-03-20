@@ -3,7 +3,7 @@ let table = $("#userTable").DataTable({
     serverSide: true,
     ajax: "users",
     columns: [
-        { data: "id" },
+        { data: "DT_RowIndex", orderable: false, searchable: false },
         { data: "name" },
         { data: "email" },
         { data: "branch" },
@@ -12,29 +12,42 @@ let table = $("#userTable").DataTable({
     ],
 });
 
-// CREATE
 $("#createUser").click(function () {
     $("#userForm")[0].reset();
     $("#user_id").val("");
     $("#userModal").modal("show");
 });
 
-// EDIT
 $(document).on("click", ".editBtn", function () {
     let id = $(this).data("id");
 
-    $.get(`/users/${id}/edit`, function (data) {
-        $("#user_id").val(data.id);
-        $("[name=name]").val(data.name);
-        $("[name=email]").val(data.email);
-        $("[name=phone]").val(data.phone);
-        $("[name=branch_id]").val(data.branch_id);
-        $("[name=role_id]").val(data.role.id);
-        $("#userModal").modal("show");
+    $("#userForm")[0].reset();
+    $("#user_id").val("");
+
+    $.ajax({
+        url: `/users/${id}/edit`,
+        type: "GET",
+        success: function (data) {
+            $("#user_id").val(data.id);
+            $("[name=name]").val(data.name);
+            $("[name=email]").val(data.email);
+            $("[name=phone]").val(data.phone);
+            $("[name=branch_id]").val(data.branch_id);
+            if (data.roles.length > 0) {
+                $("[name=role]").val(data.roles[0].name);
+            }
+
+            $("#userModalLabel").text("Update User");
+            $("#submitBtn").text("Update");
+
+            $("#userModal").modal("show");
+        },
+        error: function (err) {
+            console.error(err);
+        },
     });
 });
 
-// SAVE
 $("#userForm").submit(function (e) {
     e.preventDefault();
 
@@ -50,7 +63,7 @@ $("#userForm").submit(function (e) {
             $("#userModal").modal("hide");
             table.ajax.reload();
 
-            notyf.success("User saved successfully ✅");
+            notyf.success("User saved successfully.");
         },
 
         error: function (xhr) {
@@ -59,11 +72,10 @@ $("#userForm").submit(function (e) {
 
                 Object.keys(errors).forEach(function (key) {
                     errors[key].forEach(function (message) {
-                        notyf.error(message); // 🔥 show each error
+                        notyf.error(message);
                     });
                 });
             } else {
-                // Other errors
                 notyf.error("Something went wrong!");
                 console.log(xhr.responseText);
             }
@@ -71,18 +83,47 @@ $("#userForm").submit(function (e) {
     });
 });
 
-// DELETE
 $(document).on("click", ".deleteBtn", function () {
     let id = $(this).data("id");
 
-    if (confirm("Delete?")) {
-        $.ajax({
-            url: `/users/${id}`,
-            method: "DELETE",
-            data: { _token: "{{ csrf_token() }}" },
-            success: function () {
-                table.ajax.reload();
-            },
-        });
-    }
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "Cancel",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: `/users/${id}`,
+                method: "POST",
+                data: {
+                    _method: "DELETE",
+                },
+                success: function () {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "User has been deleted.",
+                        icon: "success",
+                        timer: 1500,
+                        showConfirmButton: false,
+                    });
+
+                    table.ajax.reload();
+                },
+                error: function (xhr) {
+                    Swal.fire({
+                        title: "Error!",
+                        text:
+                            xhr.responseJSON?.message ||
+                            "Something went wrong.",
+                        icon: "error",
+                    });
+                },
+            });
+        }
+    });
 });
