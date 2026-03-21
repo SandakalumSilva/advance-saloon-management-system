@@ -42,17 +42,13 @@ Route::post('roles/{role}/permissions', [RoleController::class, 'updatePermissio
 
 // Route::resource('users', UserController::class);
 
-Route::prefix('users')
-    ->name('users.')
-    ->middleware(['auth'])
-    ->controller(UserController::class)
-    ->group(function () {
+Route::prefix('users')->name('users.')->middleware(['auth'])->controller(UserController::class)->group(function () {
 
-        Route::get('/', 'index')->middleware('can:users.view')->name('index');
-        Route::post('/', 'store')->middleware('can:users.create')->name('store');
-        Route::get('{user}/edit', 'edit')->middleware('can:users.edit')->name('edit');
-        Route::put('{user}', 'update')->middleware('can:users.edit')->name('update');
-        Route::delete('{user}', 'destroy')->middleware('can:users.delete')->name('destroy');
-    });
+    Route::get('/', 'index')->middleware('can:users.view')->name('index');
+    Route::post('/', 'store')->middleware('can:users.create')->name('store');
+    Route::get('{user}/edit', 'edit')->middleware('can:users.edit')->name('edit');
+    Route::put('{user}', 'update')->middleware('can:users.edit')->name('update');
+    Route::delete('{user}', 'destroy')->middleware('can:users.delete')->name('destroy');
+});
 
 require __DIR__ . '/auth.php';

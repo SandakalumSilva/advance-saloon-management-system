@@ -15,7 +15,7 @@
         @can('customers.view')
             <a class="nav-link" href="#">Customers</a>
         @endcan
-
+        <a class="nav-link" href="#">Category</a>
         @can('services.view')
             <a class="nav-link" href="#">Services</a>
         @endcan
