@@ -1,7 +1,54 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/get', function () {
+    return view('index');
 });
+
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+Route::resource('roles', RoleController::class);
+Route::get('roles/{role}/permissions', [RoleController::class, 'permissions'])->name('roles.permissions');
+Route::post('roles/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
+
+// Route::prefix('roles')->name('roles.')->middleware(['auth'])->controller(RoleController::class)->group(function () {
+//     Route::get('/', 'index')->name('index');
+//     Route::post('/', 'store')->name('store');
+
+//     Route::get('{role}', 'show')->name('show');
+//     Route::put('{role}', 'update')->name('update');
+//     Route::delete('{role}', 'destroy')->name('destroy');
+
+//     Route::get('{role}/permissions', 'permissions')->name('permissions');
+//     Route::put('{role}/permissions', 'updatePermissions')->name('permissions.update');
+// });
+
+// Route::resource('users', UserController::class);
+
+Route::prefix('users')->name('users.')->middleware(['auth'])->controller(UserController::class)->group(function () {
+
+    Route::get('/', 'index')->middleware('can:users.view')->name('index');
+    Route::post('/', 'store')->middleware('can:users.create')->name('store');
+    Route::get('{user}/edit', 'edit')->middleware('can:users.edit')->name('edit');
+    Route::put('{user}', 'update')->middleware('can:users.edit')->name('update');
+    Route::delete('{user}', 'destroy')->middleware('can:users.delete')->name('destroy');
+});
+
+require __DIR__ . '/auth.php';
