@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceCategoryController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -76,5 +78,25 @@ Route::prefix('product-categories')->name('product-categories.')->middleware(['a
         Route::put('{productCategory}', 'update')->name('update');
         Route::delete('{productCategory}', 'destroy')->name('destroy');
     });
+
+Route::prefix('services')->name('services.')->middleware(['auth'])->controller(ServiceController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::get('{service}/edit', 'edit')->name('edit');
+        Route::put('{service}', 'update')->name('update');
+        Route::delete('{service}', 'destroy')->name('destroy');
+    });
+
+Route::prefix('products')->name('products.')->middleware(['auth'])->controller(ProductController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::get('{product}/edit', 'edit')->name('edit');
+        Route::put('{product}', 'update')->name('update');
+        Route::delete('{product}', 'destroy')->name('destroy');
+    });
+
+
 
 require __DIR__ . '/auth.php';
