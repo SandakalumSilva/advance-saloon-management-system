@@ -8,6 +8,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceCategoryController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/get', function () {
@@ -32,20 +33,6 @@ Route::middleware('auth')->group(function () {
 Route::resource('roles', RoleController::class);
 Route::get('roles/{role}/permissions', [RoleController::class, 'permissions'])->name('roles.permissions');
 Route::post('roles/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
-
-// Route::prefix('roles')->name('roles.')->middleware(['auth'])->controller(RoleController::class)->group(function () {
-//     Route::get('/', 'index')->name('index');
-//     Route::post('/', 'store')->name('store');
-
-//     Route::get('{role}', 'show')->name('show');
-//     Route::put('{role}', 'update')->name('update');
-//     Route::delete('{role}', 'destroy')->name('destroy');
-
-//     Route::get('{role}/permissions', 'permissions')->name('permissions');
-//     Route::put('{role}/permissions', 'updatePermissions')->name('permissions.update');
-// });
-
-// Route::resource('users', UserController::class);
 
 Route::prefix('users')->name('users.')->middleware(['auth'])->controller(UserController::class)->group(function () {
 
@@ -97,6 +84,14 @@ Route::prefix('products')->name('products.')->middleware(['auth'])->controller(P
         Route::delete('{product}', 'destroy')->name('destroy');
     });
 
+Route::prefix('customers')->name('customers.')->middleware(['auth'])->controller(CustomerController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::get('{customer}/edit', 'edit')->name('edit');
+        Route::put('{customer}', 'update')->name('update');
+        Route::delete('{customer}', 'destroy')->name('destroy');
+    });
 
 
 require __DIR__ . '/auth.php';

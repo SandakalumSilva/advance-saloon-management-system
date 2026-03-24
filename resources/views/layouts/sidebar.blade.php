@@ -13,7 +13,7 @@
         @endcan
 
         @can('customers.view')
-            <a class="nav-link" href="#">Customers</a>
+            <a class="nav-link" href="{{ route('customers.index') }}">Customers</a>
         @endcan
         <a class="nav-link" href="{{ route('category.index') }}">Category</a>
         @can('services.view')
