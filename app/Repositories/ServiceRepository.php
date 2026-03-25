@@ -23,7 +23,7 @@ class ServiceRepository implements ServiceInterface
     public function create(array $data): Service
     {
         return DB::transaction(function () use ($data) {
-           
+
             $user = Auth::user();
 
             $branchId = $data['branch_id'] ?? null;
@@ -58,7 +58,7 @@ class ServiceRepository implements ServiceInterface
     public function update(Service $service, array $data): bool
     {
         return DB::transaction(function () use ($service, $data) {
-          
+
             $user = Auth::user();
 
             if ($user instanceof User && ! $user->isSuperAdmin()) {
@@ -82,10 +82,6 @@ class ServiceRepository implements ServiceInterface
                 'commission_value'    => $data['commission_value'],
                 'status'              => $data['status'],
             ];
-
-            if ($user instanceof User && $user->isSuperAdmin()) {
-                $updateData['branch_id'] = $data['branch_id'] ?? $service->branch_id;
-            }
 
             return $service->update($updateData);
         });

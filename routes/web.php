@@ -35,7 +35,6 @@ Route::get('roles/{role}/permissions', [RoleController::class, 'permissions'])->
 Route::post('roles/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
 
 Route::prefix('users')->name('users.')->middleware(['auth'])->controller(UserController::class)->group(function () {
-
     Route::get('/', 'index')->middleware('can:users.view')->name('index');
     Route::post('/', 'store')->middleware('can:users.create')->name('store');
     Route::get('{user}/edit', 'edit')->middleware('can:users.edit')->name('edit');

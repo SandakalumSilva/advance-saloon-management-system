@@ -23,7 +23,7 @@ class ProductRepository implements ProductInterface
     public function create(array $data): Product
     {
         return DB::transaction(function () use ($data) {
-            /** @var User|null $user */
+           
             $user = Auth::user();
 
             $branchId = $data['branch_id'] ?? null;
@@ -59,7 +59,7 @@ class ProductRepository implements ProductInterface
     public function update(Product $product, array $data): bool
     {
         return DB::transaction(function () use ($product, $data) {
-            /** @var User|null $user */
+            
             $user = Auth::user();
 
             if ($user instanceof User && ! $user->isSuperAdmin()) {
@@ -84,12 +84,7 @@ class ProductRepository implements ProductInterface
                 'commission_value'     => $data['commission_value'],
                 'status'               => $data['status'],
             ];
-
-            // Only super admin can change branch
-            if ($user instanceof User && $user->isSuperAdmin()) {
-                $updateData['branch_id'] = $data['branch_id'] ?? $product->branch_id;
-            }
-
+            
             return $product->update($updateData);
         });
     }
