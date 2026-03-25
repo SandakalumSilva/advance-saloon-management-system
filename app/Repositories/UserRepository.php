@@ -23,7 +23,7 @@ class UserRepository implements UserInterface
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'phone' => $data['phone'],
+            // 'phone' => $data['phone'],
             'password' => Hash::make($plainPassword),
             'branch_id' => $data['branch_id'] ?? null
         ]);

@@ -4,14 +4,18 @@ namespace App\Repositories;
 
 use App\Interfaces\CustomerRepositoryInterface;
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CustomerRepository implements CustomerRepositoryInterface
 {
     public function getQuery(?string $search = null): Builder
     {
         return Customer::query()
+            ->branchFilter()
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('customer_code', 'like', "%{$search}%")
@@ -27,18 +31,38 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function create(array $data): Customer
     {
         return DB::transaction(function () use ($data) {
+
+            $user = Auth::user();
+
             if (empty($data['customer_code'])) {
                 $data['customer_code'] = $this->generateCustomerCode();
             }
-
-            return Customer::create($data);
+            $branchId = $user->branch_id;
+            return Customer::create([
+                'branch_id'     => $branchId,
+                'customer_code' => $data['customer_code'] ?? $this->generateCustomerCode(),
+                'first_name'    => $data['first_name'],
+                'last_name'     => $data['last_name'] ?? null,
+                'phone'         => $data['phone'] ?? null,
+                'email'         => $data['email'] ?? null,
+            ]);
         });
     }
 
     public function update(Customer $customer, array $data): bool
     {
         return DB::transaction(function () use ($customer, $data) {
-            return $customer->update($data);
+
+            $user = Auth::user();
+
+            $updateData = [
+                'first_name' => $data['first_name'] ?? $customer->first_name,
+                'last_name'  => $data['last_name'] ?? $customer->last_name,
+                'phone'      => $data['phone'] ?? $customer->phone,
+                'email'      => $data['email'] ?? $customer->email,
+            ];
+
+            return $customer->update($updateData);
         });
     }
 
