@@ -28,7 +28,7 @@
         @endcan
 
         @can('staff_leave.view')
-            <a class="nav-link" href="#">Staff Leave</a>
+            <a class="nav-link" href="{{ route('staff.index') }}">Staff Leave</a>
         @endcan
 
         @can('pos.view')

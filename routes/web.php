@@ -9,6 +9,7 @@ use App\Http\Controllers\ServiceCategoryController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\StaffLeaveController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/get', function () {
@@ -90,6 +91,11 @@ Route::prefix('customers')->name('customers.')->middleware(['auth'])->controller
         Route::get('{customer}/edit', 'edit')->name('edit');
         Route::put('{customer}', 'update')->name('update');
         Route::delete('{customer}', 'destroy')->name('destroy');
+    });
+
+    Route::prefix('staff')->name('staff.')->middleware(['auth'])->controller(StaffLeaveController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
     });
 
 

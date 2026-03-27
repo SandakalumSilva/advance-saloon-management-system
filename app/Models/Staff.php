@@ -32,4 +32,9 @@ class Staff extends Model
     {
         return $this->belongsTo(Branch::class);
     }
+
+    public function leaves()
+    {
+        return $this->hasMany(StaffLeave::class);
+    }
 }
