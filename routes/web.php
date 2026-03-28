@@ -93,10 +93,11 @@ Route::prefix('customers')->name('customers.')->middleware(['auth'])->controller
         Route::delete('{customer}', 'destroy')->name('destroy');
     });
 
-    Route::prefix('staff')->name('staff.')->middleware(['auth'])->controller(StaffLeaveController::class)
-    ->group(function () {
-        Route::get('/', 'index')->name('index');
-    });
+// Route::prefix('staff')->name('staff.')->middleware(['auth'])->controller(StaffLeaveController::class)
+//     ->group(function () {
+//         Route::get('/', 'index')->name('index');
+//     });
 
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/web/staff.php';
