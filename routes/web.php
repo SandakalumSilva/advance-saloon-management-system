@@ -43,61 +43,19 @@ Route::prefix('users')->name('users.')->middleware(['auth'])->controller(UserCon
     Route::delete('{user}', 'destroy')->middleware('can:users.delete')->name('destroy');
 });
 
-Route::prefix('category')->name('category.')->middleware(['auth'])->controller(CategoryController::class)->group(function () {
 
-    Route::get('/', 'index')->name('index');
-});
 
-Route::prefix('service-categories')->name('service-categories.')->middleware(['auth'])->controller(ServiceCategoryController::class)
-    ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::get('{serviceCategory}/edit', 'edit')->name('edit');
-        Route::put('{serviceCategory}', 'update')->name('update');
-        Route::delete('{serviceCategory}', 'destroy')->name('destroy');
-    });
-
-Route::prefix('product-categories')->name('product-categories.')->middleware(['auth'])->controller(ProductCategoryController::class)
-    ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::get('{productCategory}/edit', 'edit')->name('edit');
-        Route::put('{productCategory}', 'update')->name('update');
-        Route::delete('{productCategory}', 'destroy')->name('destroy');
-    });
-
-Route::prefix('services')->name('services.')->middleware(['auth'])->controller(ServiceController::class)
-    ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::get('{service}/edit', 'edit')->name('edit');
-        Route::put('{service}', 'update')->name('update');
-        Route::delete('{service}', 'destroy')->name('destroy');
-    });
-
-Route::prefix('products')->name('products.')->middleware(['auth'])->controller(ProductController::class)
-    ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::get('{product}/edit', 'edit')->name('edit');
-        Route::put('{product}', 'update')->name('update');
-        Route::delete('{product}', 'destroy')->name('destroy');
-    });
-
-Route::prefix('customers')->name('customers.')->middleware(['auth'])->controller(CustomerController::class)
-    ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::get('{customer}/edit', 'edit')->name('edit');
-        Route::put('{customer}', 'update')->name('update');
-        Route::delete('{customer}', 'destroy')->name('destroy');
-    });
-
-// Route::prefix('staff')->name('staff.')->middleware(['auth'])->controller(StaffLeaveController::class)
-//     ->group(function () {
-//         Route::get('/', 'index')->name('index');
-//     });
 
 
 require __DIR__ . '/auth.php';
-require __DIR__ . '/web/staff.php';
+
+
+Route::middleware(['auth'])->group(function () {   
+    require __DIR__.'/web/categories.php';
+    require __DIR__.'/web/service-categories.php';
+    require __DIR__.'/web/product-categories.php';
+    require __DIR__.'/web/services.php';
+    require __DIR__.'/web/products.php';
+    require __DIR__.'/web/customers.php';
+    require __DIR__.'/web/staff.php';
+});
