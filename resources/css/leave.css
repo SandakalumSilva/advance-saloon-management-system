@@ -1,0 +1,136 @@
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .schedule-card {
+            background: #f8f9fa;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .schedule-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .month-nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .month-label {
+            font-size: 1.5rem;
+            font-weight: 600;
+            min-width: 180px;
+            text-align: center;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+            background: #fff;
+        }
+
+        .leave-table {
+            min-width: 1400px;
+            margin-bottom: 0;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .leave-table th,
+        .leave-table td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            white-space: nowrap;
+        }
+
+        .leave-table thead th {
+            background: #f1f3f5;
+            font-weight: 700;
+        }
+
+        .staff-col {
+            min-width: 140px;
+            position: sticky;
+            left: 0;
+            background: #fff;
+            z-index: 2;
+            text-align: left !important;
+            font-weight: 600;
+        }
+
+        .leave-table thead .staff-col {
+            background: #f1f3f5;
+            z-index: 3;
+            text-align: center !important;
+        }
+
+        .day-head {
+            min-width: 58px;
+        }
+
+        .day-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .day-name {
+            font-size: 0.85rem;
+            color: #444;
+        }
+
+        .bulk-action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .selected-count {
+            font-weight: 600;
+            color: #0d6efd;
+        }
+
+        .check-cell input[type="checkbox"] {
+            width: 12px;
+            height: 12px;
+            cursor: pointer;
+        }
+
+        .legend {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+            font-size: 14px;
+        }
+
+        .legend-box {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .legend-leave {
+            background: #0d6efd;
+        }
+
+        .legend-working {
+            background: #ffffff;
+            border: 1px solid #999;
+        }

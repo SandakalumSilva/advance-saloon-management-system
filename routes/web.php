@@ -43,19 +43,14 @@ Route::prefix('users')->name('users.')->middleware(['auth'])->controller(UserCon
     Route::delete('{user}', 'destroy')->middleware('can:users.delete')->name('destroy');
 });
 
-
-
-
-
 require __DIR__ . '/auth.php';
 
-
-Route::middleware(['auth'])->group(function () {   
-    require __DIR__.'/web/categories.php';
-    require __DIR__.'/web/service-categories.php';
-    require __DIR__.'/web/product-categories.php';
-    require __DIR__.'/web/services.php';
-    require __DIR__.'/web/products.php';
-    require __DIR__.'/web/customers.php';
-    require __DIR__.'/web/staff.php';
+Route::middleware(['auth'])->group(function () {
+    require __DIR__ . '/categories.php';
+    require __DIR__ . '/service-categories.php';
+    require __DIR__ . '/product-categories.php';
+    require __DIR__ . '/services.php';
+    require __DIR__ . '/products.php';
+    require __DIR__ . '/customers.php';
+    require __DIR__ . '/staff.php';
 });
