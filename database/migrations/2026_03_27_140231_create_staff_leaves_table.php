@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Staff;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('staff_leaves', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Staff::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->date('leave_date');
             $table->string('leave_type')->default('off_day'); 
             $table->string('duration')->default('full_day'); 
@@ -24,7 +25,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique(['staff_id', 'leave_date'], 'staff_leave_unique_date');
+            $table->unique(['user_id', 'leave_date'], 'staff_leave_unique_date');
         });
     }
 

@@ -18,7 +18,16 @@ class StaffLeaveController extends Controller
     public function index()
     {
         $allStaff = $this->staffLeaveRepository->allStaffWIthLeave();
-        Log::info($allStaff);
         return view('staff.bulk-leave', ['allStaff' => $allStaff]);
+    }
+
+    public function addLeave(Request $request)
+    {
+        // dd($request->all());
+        $count = $this->staffLeaveRepository->addLeave($request->input('data', []));
+        return response()->json([
+            'message' => 'Leaves saved successfully.',
+            'count' => $count,
+        ]);
     }
 }
