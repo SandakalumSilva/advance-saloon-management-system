@@ -29,6 +29,14 @@ class UserRequest extends FormRequest
             'phone' => ['required', 'digits:10'],
             'role' => ['required', 'exists:roles,name'],
             'branch_id' => ['required', 'exists:branches,id'],
+
+            'gender' => ['nullable', Rule::in(['male', 'female'])],
+            'date_of_birth' => ['nullable', 'date'],
+            'address' => ['nullable', 'string'],
+            'join_date' => ['nullable', 'date'],
+            'basic_salary' => ['nullable', 'numeric', 'min:0'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'status' => ['nullable', 'boolean'],
         ];
     }
 
