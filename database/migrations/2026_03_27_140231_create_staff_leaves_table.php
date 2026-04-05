@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Branch;
 use App\Models\Staff;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -16,6 +17,7 @@ return new class extends Migration
         Schema::create('staff_leaves', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Branch::class)->constrained()->cascadeOnDelete();
             $table->date('leave_date');
             $table->string('leave_type')->default('off_day'); 
             $table->string('duration')->default('full_day'); 

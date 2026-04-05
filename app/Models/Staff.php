@@ -35,6 +35,6 @@ class Staff extends Model
 
     public function leaves()
     {
-        return $this->hasMany(StaffLeave::class);
+        return $this->hasMany(StaffLeave::class, 'user_id', 'user_id');
     }
 }

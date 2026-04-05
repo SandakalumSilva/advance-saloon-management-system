@@ -4,54 +4,11 @@
     @php
         use Carbon\Carbon;
 
-        $month = request('month', 3);
-        $year = request('year', 2026);
+        $month = request('month', now()->month);
+        $year = request('year', now()->year);
 
         $date = Carbon::createFromDate($year, $month, 1);
         $daysInMonth = $date->daysInMonth;
-
-        $staffList = [
-            [
-                'id' => 1,
-                'name' => 'Simon',
-                'leaves' => [28],
-            ],
-            [
-                'id' => 2,
-                'name' => 'MImi',
-                'leaves' => [4, 7, 28],
-            ],
-            [
-                'id' => 3,
-                'name' => 'Lily',
-                'leaves' => [4, 5, 6, 8],
-            ],
-            [
-                'id' => 4,
-                'name' => 'Coco',
-                'leaves' => [6, 28],
-            ],
-            [
-                'id' => 5,
-                'name' => 'Sasa',
-                'leaves' => [1, 7],
-            ],
-            [
-                'id' => 6,
-                'name' => 'Alvin',
-                'leaves' => [8, 28],
-            ],
-            [
-                'id' => 7,
-                'name' => 'Eric',
-                'leaves' => [9, 25, 28],
-            ],
-            [
-                'id' => 8,
-                'name' => 'Daisy',
-                'leaves' => [10, 24],
-            ],
-        ];
 
         $prevMonth = $date->copy()->subMonth();
         $nextMonth = $date->copy()->addMonth();
@@ -69,12 +26,10 @@
         <h2 class="page-title mb-4">Off Day Schedule</h2>
 
         <div class="schedule-card">
-            <div class="schedule-toolbar">
-                <div>
-                    <button class="btn btn-light border">This month</button>
-                </div>
+            <div class="schedule-toolbar d-flex align-items-center">
+                <div class="flex-fill"></div>
 
-                <div class="month-nav">
+                <div class="month-nav d-flex justify-content-center align-items-center gap-2 flex-fill">
                     <a href="{{ request()->fullUrlWithQuery(['month' => $prevMonth->month, 'year' => $prevMonth->year]) }}"
                         class="btn btn-light border">
                         <i class="bi bi-arrow-left"></i>
@@ -90,33 +45,8 @@
                     </a>
                 </div>
 
-                <div class="d-flex gap-2">
-                    <select class="form-select" style="min-width: 150px;">
-                        <option selected>Month</option>
-                        <option>Week</option>
-                    </select>
-
-                    <button class="btn btn-outline-secondary">Request</button>
-                </div>
-
-                <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-outline-danger" id="cancelSelectionBtn">Cancel</button>
+                <div class="d-flex justify-content-end flex-fill">
                     <button type="button" class="btn btn-primary" id="saveSelectionBtn">Save</button>
-                </div>
-            </div>
-
-            <div class="bulk-action-bar">
-                <div class="d-flex gap-2 flex-wrap">
-                    <button type="button" class="btn btn-success btn-sm" id="markSelectedLeave">
-                        Mark Selected as Leave
-                    </button>
-                    <button type="button" class="btn btn-outline-dark btn-sm" id="unmarkSelectedLeave">
-                        Remove Leave
-                    </button>
-                </div>
-
-                <div class="selected-count">
-                    Selected cells: <span id="selectedCount">0</span>
                 </div>
             </div>
 

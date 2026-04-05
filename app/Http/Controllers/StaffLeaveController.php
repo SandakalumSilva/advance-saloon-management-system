@@ -17,7 +17,10 @@ class StaffLeaveController extends Controller
     }
     public function index()
     {
-        $allStaff = $this->staffLeaveRepository->allStaffWIthLeave();
+        $month = request('month', now()->month);
+        $year  = request('year', now()->year);
+
+        $allStaff = $this->staffLeaveRepository->allStaffWIthLeave($month, $year);
         return view('staff.bulk-leave', ['allStaff' => $allStaff]);
     }
 
