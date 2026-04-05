@@ -13,11 +13,14 @@
         @endcan
 
         @can('customers.view')
-            <a class="nav-link" href="#">Customers</a>
+            <a class="nav-link" href="{{ route('customers.index') }}">Customers</a>
         @endcan
-        <a class="nav-link" href="#">Category</a>
+        <a class="nav-link" href="{{ route('category.index') }}">Category</a>
         @can('services.view')
-            <a class="nav-link" href="#">Services</a>
+            <a class="nav-link" href="{{ route('services.index') }}">Services</a>
+        @endcan
+        @can('services.view')
+            <a class="nav-link" href="{{ route('products.index') }}">Products</a>
         @endcan
 
         @can('staff.view')
@@ -25,7 +28,7 @@
         @endcan
 
         @can('staff_leave.view')
-            <a class="nav-link" href="#">Staff Leave</a>
+            <a class="nav-link" href="{{ route('staff.index') }}">Staff Leave</a>
         @endcan
 
         @can('pos.view')

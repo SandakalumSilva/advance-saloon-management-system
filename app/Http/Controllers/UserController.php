@@ -24,28 +24,42 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = $this->userRepository->getAll();
-
-            return DataTables::of($users)
+            $query = $this->userRepository->getQuery();
+            // Log::info($query);
+            return DataTables::eloquent($query)
                 ->addIndexColumn()
-                ->addColumn('branch', function ($user) {
-                    return $user->branch ? $user->branch->name : '-';
+                ->addColumn('branch', function (User $user) {
+                    return $user->branch?->name ?? '-';
                 })
-                ->addColumn('role', function ($user) {
+                ->addColumn('role', function (User $user) {
                     return $user->roles->pluck('name')->join(', ');
                 })
-                ->addColumn('action', function ($user) {
-                    return '
-                        <button class="btn btn-sm btn-warning editBtn" data-id="' . $user->id . '">Edit</button>
-                        <button class="btn btn-sm btn-danger deleteBtn" data-id="' . $user->id . '">Delete</button>
-                    ';
+                ->addColumn('status_badge', function (User $user) {
+                    return $user->staff?->status
+                        ? '<span class="badge bg-success">Active</span>'
+                        : '<span class="badge bg-danger">Inactive</span>';
                 })
-                ->rawColumns(['action'])
+                ->editColumn('created_at', function (User $user) {
+                    return $user->created_at?->format('Y-m-d');
+                })
+                ->addColumn('action', function (User $user) {
+                    return '
+                    <button type="button" class="btn btn-sm btn-primary editBtn" data-id="' . $user->id . '">
+                        Edit
+                    </button>
+
+                    <button type="button" class="btn btn-sm btn-danger deleteBtn" data-id="' . $user->id . '">
+                        Delete
+                    </button>
+                ';
+                })
+                ->rawColumns(['status_badge', 'action'])
                 ->make(true);
         }
 
         $roles = Role::all();
         $branches = Branch::all();
+
         return view('users.index', compact('roles', 'branches'));
     }
 
@@ -58,10 +72,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $user->load('roles', 'branch');
-        Log::debug('User loaded for edit', [
-            'roles' => $user->roles,
-        ]);
+        $user->load('roles', 'branch','staff');
+        
         return response()->json($user);
     }
 

@@ -16,6 +16,8 @@ $("#createUser").click(function () {
     $("#userForm")[0].reset();
     $("#user_id").val("");
     $("#userModal").modal("show");
+    $("#userModalLabel").text("Add User");
+    $("#submitBtn").text("Save");
 });
 
 $(document).on("click", ".editBtn", function () {
@@ -29,18 +31,40 @@ $(document).on("click", ".editBtn", function () {
         type: "GET",
         success: function (data) {
             $("#user_id").val(data.id);
-            $("[name=name]").val(data.name);
-            $("[name=email]").val(data.email);
-            $("[name=phone]").val(data.phone);
-            $("[name=branch_id]").val(data.branch_id);
-            if (data.roles.length > 0) {
+
+            // users table
+            $("[name=name]").val(data.name ?? "");
+            $("[name=email]").val(data.email ?? "");
+            $("[name=branch_id]").val(data.branch_id ?? "");
+
+            // role
+            if (data.roles && data.roles.length > 0) {
                 $("[name=role]").val(data.roles[0].name);
+            } else {
+                $("[name=role]").val("");
             }
+
+            // staff table
+            $("[name=phone]").val(data.staff?.phone ?? "");
+            $("[name=gender]").val(data.staff?.gender ?? "");
+            $("[name=date_of_birth]").val(data.staff?.date_of_birth ?? "");
+            $("[name=address]").val(data.staff?.address ?? "");
+            $("[name=join_date]").val(data.staff?.join_date ?? "");
+            $("[name=basic_salary]").val(data.staff?.basic_salary ?? "");
+            $("[name=status]").val(
+                data.staff?.status != null ? Number(data.staff.status) : 1,
+            );
+
+            // file input cannot be prefilled for security reasons
+            $("[name=photo]").val("");
 
             $("#userModalLabel").text("Update User");
             $("#submitBtn").text("Update");
 
-            $("#userModal").modal("show");
+            const modal = new bootstrap.Modal(
+                document.getElementById("userModal"),
+            );
+            modal.show();
         },
         error: function (err) {
             console.error(err);
