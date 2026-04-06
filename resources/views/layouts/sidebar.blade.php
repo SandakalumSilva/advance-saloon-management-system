@@ -56,7 +56,7 @@
         @endcan
 
         @can('settings.view')
-            <a class="nav-link" href="#">Settings</a>
+            <a class="nav-link" href="{{ route('settings.index') }}">Settings</a>
         @endcan
     </nav>
 </aside>
